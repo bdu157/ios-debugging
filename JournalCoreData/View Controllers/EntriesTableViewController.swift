@@ -101,21 +101,28 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        switch segue.identifier {
-        case "CreateEntry":
-            guard let destinationVC = segue.destination as? EntryDetailViewController else { return }
-            
-            destinationVC.entryController = entryController
-            
-        case "ViewEntry":
+        if segue.identifier == "ViewEntry" {
             guard let destinationVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
             
             destinationVC.entry = fetchedResultsController.object(at: indexPath)
-            
-        default:
-            break
         }
+        
+//        switch segue.identifier {
+//        case "CreateEntry":
+//            guard let destinationVC = segue.destination as? EntryDetailViewController else { return }
+//
+//            destinationVC.entryController = entryController
+//
+//        case "ViewEntry":
+//            guard let destinationVC = segue.destination as? EntryDetailViewController,
+//                let indexPath = tableView.indexPathForSelectedRow else { return }
+//
+//            destinationVC.entry = fetchedResultsController.object(at: indexPath)
+//
+//        default:
+//            break
+//        }
     }
     
     // MARK: - Properties
