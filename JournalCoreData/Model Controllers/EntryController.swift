@@ -9,8 +9,9 @@
 import Foundation
 import CoreData
 
-let baseURL = URL(string: "https://journal-syncing.firebaseio.com/")!
-
+let baseURL = URL(string: "https://task-coredata.firebaseio.com/")!
+//my own --  https://task-coredata.firebaseio.com/
+//given address -- "https://journal-syncing.firebaseio.com/"
 class EntryController {
     
     func createEntry(with title: String, bodyText: String, mood: String) {
@@ -44,7 +45,7 @@ class EntryController {
     private func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         let identifier = entry.identifier ?? UUID().uuidString
-        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathComponent("json")
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
