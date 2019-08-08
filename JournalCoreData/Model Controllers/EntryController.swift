@@ -42,7 +42,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    private func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
+    func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         let identifier = entry.identifier ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
@@ -109,21 +109,21 @@ class EntryController {
                 return
             }
 
-            let moc = CoreDataStack.shared.mainContext
-            
+            //let moc = CoreDataStack.shared.mainContext
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             do {
                 let entryReps = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
                 //moc should be backgroundContext
-                self.updateEntries(with: entryReps, in: moc)
+                self.updateEntries(with: entryReps, in: backgroundContext)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
                 return
             }
             
-            moc.perform {
+            backgroundContext.perform {
                 do {
-                    try moc.save()
+                    try backgroundContext.save()
                     completion(nil)
                 } catch {
                     NSLog("Error saving context: \(error)")

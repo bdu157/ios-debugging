@@ -24,6 +24,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                 print(error)
                 return
             }
+//            var objects: [Entry] = []
+//            let fetchedObjects = self.fetchedResultsController.fetchedObjects!
+//            objects = fetchedObjects
+//
+//            for object in objects {
+//                self.entryController.put(entry: object)
+//            }
         }
     }
     
