@@ -113,6 +113,7 @@ class EntryController {
             
             do {
                 let entryReps = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                //moc should be backgroundContext
                 self.updateEntries(with: entryReps, in: moc)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
@@ -137,7 +138,7 @@ class EntryController {
         guard let identifier = identifier else { return nil }
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identfier == %@", identifier)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
         var result: Entry? = nil
         do {
