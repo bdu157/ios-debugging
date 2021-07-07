@@ -17,6 +17,23 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.reloadData()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.entryController.fetchEntriesFromServer { (error) in
+            if let error = error {
+                print(error)
+                return
+            }
+//            var objects: [Entry] = []
+//            let fetchedObjects = self.fetchedResultsController.fetchedObjects!
+//            objects = fetchedObjects
+//
+//            for object in objects {
+//                self.entryController.put(entry: object)
+//            }
+        }
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -104,15 +121,15 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         switch segue.identifier {
         case "CreateEntry":
             guard let destinationVC = segue.destination as? EntryDetailViewController else { return }
-            
+
             destinationVC.entryController = entryController
-            
+
         case "ViewEntry":
             guard let destinationVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
-            
+            destinationVC.entryController = entryController
             destinationVC.entry = fetchedResultsController.object(at: indexPath)
-            
+
         default:
             break
         }
